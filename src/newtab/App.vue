@@ -40,7 +40,7 @@ export default {
     apexChartOptions() {
       return {
         chart: {
-          id: 'vuechart-example',
+          id: 'co2-over-time',
           background: `#26292b`,
           sparkline: {
             enabled: true,
