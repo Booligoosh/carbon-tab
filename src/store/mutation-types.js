@@ -1,2 +1,2 @@
 export const UPDATE_FOO = 'UPDATE_FOO';
-export const UPDATE_CURRENT_CO2 = 'UPDATE_CURRENT_PPM';
+export const UPDATE_CO2_LEVELS = 'UPDATE_CO2_LEVELS';

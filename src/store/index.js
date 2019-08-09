@@ -16,7 +16,7 @@ const vuexPersist = new VuexPersist({
 export default new Vuex.Store({
   state: {
     foo: 'bar',
-    currentCO2: -1,
+    CO2Levels: {},
   },
   getters,
   mutations,

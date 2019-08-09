@@ -3,28 +3,70 @@
     <h1 class="large-co2-label">Current atmospheric CO2 level</h1>
     <h2 class="large-co2-value" v-if="currentCO2 >= 0">{{currentCO2}}</h2>
     <!-- <img class="logo" src="/public/img/logo-web-safe.svg?emitFile=false"> -->
+    <ApexChart class="monthly-chart" width="500" type="line" :options="apexChartOptions" :series="apexChartSeries"/>
   </div>
 </template>
 
 <script>
 import store from '../store'
 import axios from 'axios'
+import VueApexCharts from 'vue-apexcharts'
 
 export default {
   data() {
     return {}
   },
   store,
+  components: {
+    ApexChart: VueApexCharts
+  },
   created() {
-    axios.get(`https://co2.booligoosh.workers.dev`)
+    axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`)
     .then(response => {
-      console.log(`HTML`, response.data)
-      store.dispatch(`setCurrentCO2`, Number(/<tr><td>.+?<\/td><td> ([0-9.]+?) ppm<\/td><\/tr>/.exec(response.data)[1] || -1))
+      console.log(response.data)
+      store.dispatch(`setCO2Levels`, response.data)
     })
   },
   computed: {
     currentCO2() {
       return this.$store.getters.currentCO2
+    },
+    CO2Levels() {
+      return this.$store.getters.CO2Levels
+    },
+    apexChartOptions() {
+      return {
+        chart: {
+          id: 'vuechart-example',
+          background: `#26292b`
+        },
+        grid: { 
+          padding: {
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0
+          },
+        },
+        xaxis: {
+          categories: Object.keys(this.CO2Levels)/*.filter(key => /01$/.test(key))*/,
+          labels: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          }
+        },
+        theme: {
+          mode: `dark`
+        }
+      }
+    },
+    apexChartSeries() {
+      return [{
+        name: 'CO2 level (PPM)',
+        data: Object.keys(this.CO2Levels)/*.filter(key => /01$/.test(key))*/.map(key => this.CO2Levels[key].trend)
+      }]
     }
   }
 };
@@ -67,5 +109,9 @@ body {
 }
 .logo:hover {
   opacity: .75;
+}
+.monthly-chart {
+  margin-left: -24px;
+  margin-top: 30px;
 }
 </style>
