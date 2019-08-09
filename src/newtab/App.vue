@@ -3,7 +3,7 @@
     <h1 class="large-co2-label">Current atmospheric CO2 level</h1>
     <h2 class="large-co2-value" v-if="currentCO2 >= 0">{{currentCO2}}</h2>
     <!-- <img class="logo" src="/public/img/logo-web-safe.svg?emitFile=false"> -->
-    <ApexChart class="monthly-chart" width="500" type="line" :options="apexChartOptions" :series="apexChartSeries"/>
+    <ApexChart class="monthly-chart" :width="innerWidth - 0*10*16" type="line" :options="apexChartOptions" :series="apexChartSeries"/>
   </div>
 </template>
 
@@ -34,11 +34,20 @@ export default {
     CO2Levels() {
       return this.$store.getters.CO2Levels
     },
+    innerWidth() {
+      return window.innerWidth
+    },
     apexChartOptions() {
       return {
         chart: {
           id: 'vuechart-example',
-          background: `#26292b`
+          background: `#26292b`,
+          sparkline: {
+            enabled: true,
+          },
+          animations: {
+            enabled: false,
+          }
         },
         grid: { 
           padding: {
@@ -86,6 +95,11 @@ body {
 </style>
 
 <style lang="scss" scoped>
+.large-co2-label, .large-co2-value {
+  z-index: 1;
+  position: relative;
+  width: max-content;
+}
 .large-co2-label {
   margin: 0;
 }
@@ -111,7 +125,12 @@ body {
   opacity: .75;
 }
 .monthly-chart {
-  margin-left: -24px;
+  // margin-left: -24px;
   margin-top: 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>
