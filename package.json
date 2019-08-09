@@ -1,7 +1,7 @@
 {
   "name": "carbon-tab",
-  "version": "1.0.0",
-  "description": "A Vue.js web extension",
+  "version": "0.0.1",
+  "description": "Data about the climate crisis, in your new tab.",
   "author": "Ethan <me@ethan.link>",
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
