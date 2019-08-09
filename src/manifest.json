@@ -1,6 +1,6 @@
 {
-  "name": "carbon-tab",
-  "description": "A Vue.js web extension",
+  "name": "Carbon Tab",
+  "description": "Data about the climate crisis, in your new tab.",
   "version": null,
   "manifest_version": 2,
   "icons": {
@@ -9,17 +9,5 @@
   },
   "chrome_url_overrides": {
     "newtab": "newtab/newtab.html"
-  },
-  "browser_action": {
-    "default_title": "carbon-tab"
-  },
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
-  "options_ui": {
-    "page": "options/options.html",
-    "chrome_style": true
   }
 }
