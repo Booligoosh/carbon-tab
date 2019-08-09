@@ -99,6 +99,7 @@ body {
   z-index: 1;
   position: relative;
   width: max-content;
+  cursor: default;
 }
 .large-co2-label {
   margin: 0;
