@@ -10,7 +10,7 @@ const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
-    'background': './background.js',
+    // 'background': './background.js',
     'newtab/newtab': './newtab/newtab.js',
     'options/options': './options/options.js',
   },
@@ -102,13 +102,13 @@ if (config.mode === 'production') {
   ]);
 }
 
-if (process.env.HMR === 'true') {
-  config.plugins = (config.plugins || []).concat([
-    new ExtensionReloader({
-      manifest: __dirname + '/src/manifest.json',
-    }),
-  ]);
-}
+// if (process.env.HMR === 'true') {
+//   config.plugins = (config.plugins || []).concat([
+//     new ExtensionReloader({
+//       manifest: __dirname + '/src/manifest.json',
+//     }),
+//   ]);
+// }
 
 function transformHtml(content) {
   return ejs.render(content.toString(), {
