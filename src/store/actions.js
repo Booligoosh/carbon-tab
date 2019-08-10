@@ -6,3 +6,6 @@ export const setFoo = ({ commit }, payload) => {
 export const setCO2Levels = ({ commit }, payload) => {
   commit(types.UPDATE_CO2_LEVELS, payload);
 };
+export const setLastUpdateEpoch = ({ commit }, payload) => {
+  commit(types.UPDATE_LAST_UPDATE_EPOCH, payload);
+};

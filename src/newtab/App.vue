@@ -21,11 +21,20 @@ export default {
     ApexChart: VueApexCharts
   },
   created() {
-    axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`)
-    .then(response => {
-      console.log(response.data)
-      store.dispatch(`setCO2Levels`, response.data)
-    })
+    // Only check for updates every hour (to reduce cloud function strain)
+    if (Date.now() - this.$store.getters.lastUpdateEpoch > 3600000) { // 1000*60*60 aka 1 hour
+      this.updateCO2()
+    }
+  },
+  methods: {
+    updateCO2() {
+      axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`)
+      .then(response => {
+        console.log(response.data)
+        store.dispatch(`setCO2Levels`, response.data)
+        store.dispatch(`setLastUpdateEpoch`, Date.now())
+      })
+    }
   },
   computed: {
     currentCO2() {

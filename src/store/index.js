@@ -17,6 +17,7 @@ export default new Vuex.Store({
   state: {
     foo: 'bar',
     CO2Levels: {},
+    lastUpdateEpoch: 0
   },
   getters,
   mutations,
