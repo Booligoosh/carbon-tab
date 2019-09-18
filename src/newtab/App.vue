@@ -188,7 +188,7 @@ body {
 </style>
 
 <style lang="scss" scoped>
-.large-co2-label, .large-co2-value {
+.large-co2-label, .large-co2-value, .increases {
   width: max-content;
 }
 .large-co2-label {
