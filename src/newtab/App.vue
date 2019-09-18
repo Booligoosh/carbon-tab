@@ -227,6 +227,7 @@ body {
 .increases {
   display: flex;
   margin-top: .5em;
+  opacity: .8;
 }
 .increase {
   text-align: center;
