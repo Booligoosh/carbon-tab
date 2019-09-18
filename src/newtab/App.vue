@@ -3,10 +3,10 @@
     <h1 class="large-co2-label z-index-1">Current atmospheric CO2 level</h1>
     <h2 class="large-co2-value z-index-1" v-if="currentCO2 >= 0">{{currentCO2}}</h2>
     <div class="increases z-index-1">
-      <div class="increase">Increased by <div class="increase-number">{{increaseSinceLastYear}} PPM</div> since last year</div>
-      <div class="increase">Increased by <div class="increase-number">{{increaseSinceLastMonth}} PPM</div> since last month</div>
-      <div class="increase">Increased by <div class="increase-number">{{increaseSinceLastWeek}} PPM</div> since last week</div>
-      <div class="increase">Increased by <div class="increase-number">{{increaseSinceYesterday}} PPM</div> since yesterday</div>
+      <div class="increase">{{increaseSinceLastYear > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceLastYear)}} PPM</div> since last year</div>
+      <div class="increase">{{increaseSinceLastMonth > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceLastMonth)}} PPM</div> since last month</div>
+      <div class="increase">{{increaseSinceLastWeek > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceLastWeek)}} PPM</div> since last week</div>
+      <div class="increase">{{increaseSinceYesterday > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceYesterday)}} PPM</div> since yesterday</div>
     </div>
     <!-- <img class="logo" src="/public/img/logo-web-safe.svg?emitFile=false"> -->
     <ApexChart class="monthly-chart" :width="innerWidth" :height="innerHeight" type="line" :options="apexChartOptions" :series="apexChartSeries"/>
