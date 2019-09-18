@@ -176,6 +176,7 @@ export default {
 <style>
 * {
   box-sizing: border-box;
+  cursor: default;
 }
 body {
   margin: 0;
@@ -189,7 +190,6 @@ body {
 <style lang="scss" scoped>
 .large-co2-label, .large-co2-value {
   width: max-content;
-  cursor: default;
 }
 .large-co2-label {
   margin: 0;
