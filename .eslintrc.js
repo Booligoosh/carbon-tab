@@ -2,7 +2,7 @@
 // File taken from https://github.com/vuejs-templates/webpack/blob/1.3.1/template/.eslintrc.js, thanks.
 
 module.exports = {
-  root: true,
+  root: false,
   parserOptions: {
     parser: 'babel-eslint'
   },
