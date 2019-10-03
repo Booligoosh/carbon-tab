@@ -183,6 +183,7 @@ body {
   padding: 5em;
   background: hsl(204, 6%, 16%);
   color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   min-height: 100vh;
 }
 </style>
