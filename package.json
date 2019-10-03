@@ -21,7 +21,7 @@
   "dependencies": {
     "apexcharts": "^3.8.4",
     "axios": "^0.19.0",
-    "eslint-utils": "^1.4.2",
+    "eslint-utils": "^1.4.1",
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.4.0",
     "vuex": "^3.0.1",
