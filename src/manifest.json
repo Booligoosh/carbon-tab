@@ -9,5 +9,10 @@
   },
   "chrome_url_overrides": {
     "newtab": "newtab/newtab.html"
+  },
+  "applications": {
+    "gecko": {
+      "id": "firefox@carbon-tab.netlify.com"
+    }
   }
 }
