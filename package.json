@@ -1,6 +1,6 @@
 {
   "name": "carbon-tab",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Data about the climate crisis, in your new tab.",
   "author": "Ethan <me@ethan.link>",
   "scripts": {
