@@ -1,146 +1,128 @@
 <template>
   <div>
     <h1 class="large-co2-label z-index-1">Current atmospheric CO2 level</h1>
-    <h2 class="large-co2-value z-index-1" v-if="currentCO2 >= 0">{{ currentCO2 }}</h2>
+    <h2 class="large-co2-value z-index-1" v-if="currentCO2 >= 0">{{currentCO2}}</h2>
     <div class="increases z-index-1">
-      <div class="increase">
-        {{ increaseSinceLastYear > 0 ? 'Increased' : 'Decreased' }} by
-        <div class="increase-number">{{ Math.abs(increaseSinceLastYear) }} PPM</div>
-        since last year
-      </div>
-      <div class="increase">
-        {{ increaseSinceLastMonth > 0 ? 'Increased' : 'Decreased' }} by
-        <div class="increase-number">{{ Math.abs(increaseSinceLastMonth) }} PPM</div>
-        since last month
-      </div>
-      <div class="increase">
-        {{ increaseSinceLastWeek > 0 ? 'Increased' : 'Decreased' }} by
-        <div class="increase-number">{{ Math.abs(increaseSinceLastWeek) }} PPM</div>
-        since last week
-      </div>
-      <div class="increase">
-        {{ increaseSinceYesterday > 0 ? 'Increased' : 'Decreased' }} by
-        <div class="increase-number">{{ Math.abs(increaseSinceYesterday) }} PPM</div>
-        since yesterday
-      </div>
+      <div class="increase">{{increaseSinceLastYear > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceLastYear)}} PPM</div> since last year</div>
+      <div class="increase">{{increaseSinceLastMonth > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceLastMonth)}} PPM</div> since last month</div>
+      <div class="increase">{{increaseSinceLastWeek > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceLastWeek)}} PPM</div> since last week</div>
+      <div class="increase">{{increaseSinceYesterday > 0 ? 'Increased' : 'Decreased'}} by <div class="increase-number">{{Math.abs(increaseSinceYesterday)}} PPM</div> since yesterday</div>
     </div>
     <!-- <img class="logo" src="/public/img/logo-web-safe.svg?emitFile=false"> -->
-    <ApexChart class="monthly-chart" :width="innerWidth" :height="innerHeight" type="line" :options="apexChartOptions" :series="apexChartSeries" />
+    <ApexChart class="monthly-chart" :width="innerWidth" :height="innerHeight" type="line" :options="apexChartOptions" :series="apexChartSeries"/>
   </div>
 </template>
 
 <script>
-import store from '../store';
-import axios from 'axios';
-import VueApexCharts from 'vue-apexcharts';
+import store from '../store'
+import axios from 'axios'
+import VueApexCharts from 'vue-apexcharts'
 
-const increaseDecimalPlaces = 2;
+const increaseDecimalPlaces = 2
 
 export default {
   data() {
     return {
       innerWidth: 0,
-      innerHeight: 0,
-    };
+      innerHeight: 0
+    }
   },
   store,
   components: {
-    ApexChart: VueApexCharts,
+    ApexChart: VueApexCharts
   },
   created() {
     // Only check for updates every hour (to reduce cloud function strain)
-    if (Date.now() - this.$store.getters.lastUpdateEpoch > 3600000) {
-      // 1000*60*60 aka 1 hour
-      this.updateCO2();
+    if (Date.now() - this.$store.getters.lastUpdateEpoch > 3600000) { // 1000*60*60 aka 1 hour
+      this.updateCO2()
     }
+    // Set initial size
+    this.updateSize()
+    // Update size everytime the window is resized
+    window.addEventListener('resize', this.updateSize)
   },
   methods: {
     updateCO2() {
-      axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`).then(response => {
-        console.log(response.data);
-        store.dispatch(`setCO2Levels`, response.data);
-        store.dispatch(`setLastUpdateEpoch`, Date.now());
-      });
+      axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`)
+      .then(response => {
+        console.log(response.data)
+        store.dispatch(`setCO2Levels`, response.data)
+        store.dispatch(`setLastUpdateEpoch`, Date.now())
+      })
     },
-    padWithZeroes(number, desiredLength) {
-      number = number.toString();
+    padWithZeroes (number, desiredLength) {
+      number = number.toString()
       while (number.length < desiredLength) {
-        number = `0` + number;
+        number = `0` + number
       }
-      return number;
+      return number
     },
     updateSize() {
-      this.innerWidth = window.innerWidth;
-      this.innerHeight = window.innerHeight;
-    },
+      this.innerWidth = window.innerWidth
+      this.innerHeight = window.innerHeight
+    }
   },
   computed: {
     currentCO2() {
-      return this.$store.getters.currentCO2;
+      return this.$store.getters.currentCO2
     },
     CO2Levels() {
-      return this.$store.getters.CO2Levels;
+      return this.$store.getters.CO2Levels
     },
     yesterdayDate() {
-      return Object.keys(this.CO2Levels).reverse()[1];
+      return Object.keys(this.CO2Levels).reverse()[1]
     },
     lastWeekDate() {
-      let date = new Date();
-      date.setDate(date.getDate() - 7);
-      return `${date.getFullYear()}-${this.padWithZeroes(date.getMonth() + 1, 2)}-${this.padWithZeroes(date.getDate(), 2)}`;
+      let date = new Date()
+      date.setDate(date.getDate() - 7)
+      return `${date.getFullYear()}-${this.padWithZeroes(date.getMonth() + 1, 2)}-${this.padWithZeroes(date.getDate(), 2)}`
     },
     lastMonthDate() {
-      let date = new Date();
-      date.setMonth(date.getMonth() - 1);
-      return `${date.getFullYear()}-${this.padWithZeroes(date.getMonth() + 1, 2)}-${this.padWithZeroes(date.getDate(), 2)}`;
+      let date = new Date()
+      date.setMonth(date.getMonth() - 1)
+      return `${date.getFullYear()}-${this.padWithZeroes(date.getMonth() + 1, 2)}-${this.padWithZeroes(date.getDate(), 2)}`
     },
     lastYearDate() {
-      let date = new Date();
-      date.setFullYear(date.getFullYear() - 1);
-      return `${date.getFullYear()}-${this.padWithZeroes(date.getMonth() + 1, 2)}-${this.padWithZeroes(date.getDate(), 2)}`;
+      let date = new Date()
+      date.setFullYear(date.getFullYear() - 1)
+      return `${date.getFullYear()}-${this.padWithZeroes(date.getMonth() + 1, 2)}-${this.padWithZeroes(date.getDate(), 2)}`
     },
     increaseSinceLastYear() {
-      return (this.currentCO2 - this.CO2Levels[this.lastYearDate].cycle).toFixed(increaseDecimalPlaces);
+      return (this.currentCO2 - this.CO2Levels[this.lastYearDate].cycle).toFixed(increaseDecimalPlaces)
     },
     increaseSinceLastMonth() {
-      return (this.currentCO2 - this.CO2Levels[this.lastMonthDate].cycle).toFixed(increaseDecimalPlaces);
+      return (this.currentCO2 - this.CO2Levels[this.lastMonthDate].cycle).toFixed(increaseDecimalPlaces)
     },
     increaseSinceLastWeek() {
-      return (this.currentCO2 - this.CO2Levels[this.lastWeekDate].cycle).toFixed(increaseDecimalPlaces);
+      return (this.currentCO2 - this.CO2Levels[this.lastWeekDate].cycle).toFixed(increaseDecimalPlaces)
     },
     increaseSinceYesterday() {
-      return (this.currentCO2 - this.CO2Levels[this.yesterdayDate].cycle).toFixed(increaseDecimalPlaces);
+      return (this.currentCO2 - this.CO2Levels[this.yesterdayDate].cycle).toFixed(increaseDecimalPlaces)
     },
-    minPointY() {
-      let min = Infinity;
+    minPointY () {
+      let min = Infinity
       for (let key in this.CO2Levels) {
         if (this.CO2Levels[key].cycle < min) {
-          min = this.CO2Levels[key].cycle;
+          min = this.CO2Levels[key].cycle
         }
         if (this.CO2Levels[key].trend < min) {
-          min = this.CO2Levels[key].trend;
+          min = this.CO2Levels[key].trend
         }
       }
-      return min;
+      return min
     },
-    maxPointY() {
-      let max = 0;
+    maxPointY () {
+      let max = 0
       for (let key in this.CO2Levels) {
         if (this.CO2Levels[key].cycle > max) {
-          max = this.CO2Levels[key].cycle;
+          max = this.CO2Levels[key].cycle
         }
         if (this.CO2Levels[key].trend > max) {
-          max = this.CO2Levels[key].trend;
+          max = this.CO2Levels[key].trend
         }
       }
-      return max;
+      return max
     },
-    /*innerWidth() {
-      return window.innerWidth
-    },
-    innerHeight() {
-      return window.innerHeight
-    },*/
     apexChartOptions() {
       return {
         chart: {
@@ -151,34 +133,34 @@ export default {
           },
           animations: {
             enabled: false,
-          },
+          }
         },
-        grid: {
+        grid: { 
           padding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0
           },
         },
         xaxis: {
-          categories: Object.keys(this.CO2Levels) /*.filter(key => /01$/.test(key))*/,
+          categories: Object.keys(this.CO2Levels)/*.filter(key => /01$/.test(key))*/,
           labels: {
-            show: false,
+            show: false
           },
           axisTicks: {
             show: false,
-          },
+          }
         },
         yaxis: {
           min: this.minPointY - 1,
-          max: this.maxPointY + 1,
+          max: this.maxPointY + 1
         },
         theme: {
-          mode: `dark`,
+          mode: `dark`
         },
-        colors: ['#4ecdc4', '#278b85'],
-      };
+        colors: ['#4ecdc4','#278b85']
+      }
     },
     apexChartSeries() {
       return [
@@ -190,13 +172,9 @@ export default {
           name: 'CO2 trend (PPM)',
           data: Object.keys(this.CO2Levels).map(key => this.CO2Levels[key].trend),
         },
-      ];
-    },
-  },
-  mounted() {
-    this.updateSize();
-    window.addEventListener('resize', this.updateSize);
-  },
+      ]
+    }
+  }
 };
 </script>
 
@@ -213,27 +191,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   min-height: 100vh;
 }
-@media (max-width: 1500px) {
-  body {
-    padding: 4em;
-  }
-}
-@media (max-width: 1100px) {
-  body {
-    padding: 3em;
-  }
-}
 </style>
 
 <style lang="scss" scoped>
-.large-co2-label,
-.large-co2-value,
-.increases {
+.large-co2-label, .large-co2-value, .increases {
   width: max-content;
 }
 .large-co2-label {
   margin: 0;
-  font-size: 2em;
 }
 .large-co2-value {
   font-size: 10em;
@@ -242,19 +207,19 @@ body {
 .large-co2-value:after {
   content: 'PPM';
   font-size: 0.3em;
-  opacity: 0.5;
+  opacity: .5;
   font-weight: 500;
-  margin-left: 0.5em;
+  margin-left: .5em;
 }
 .logo {
   width: 3rem;
   position: fixed;
   bottom: 3rem;
   right: 3rem;
-  opacity: 0.5;
+  opacity: .5;
 }
 .logo:hover {
-  opacity: 0.75;
+  opacity: .75;
 }
 .monthly-chart {
   // margin-left: -24px;
@@ -267,12 +232,12 @@ body {
 }
 .increases {
   display: flex;
-  margin-top: 0.5em;
-  opacity: 0.8;
+  margin-top: .5em;
+  opacity: .8;
 }
 .increase {
   text-align: center;
-  font-size: 1.3em;
+  font-size: 16px;
   width: max-content;
   margin-right: 30px;
 }
@@ -283,24 +248,5 @@ body {
 .z-index-1 {
   z-index: 1;
   position: relative;
-}
-@media (max-width: 1500px) {
-  .large-co2-value {
-    font-size: 8em;
-  }
-  .increase {
-    font-size: 1.2em;
-  }
-}
-@media (max-width: 1100px) {
-  .large-co2-label {
-    font-size: 1.5em;
-  }
-  .large-co2-value {
-    font-size: 6em;
-  }
-  .increase {
-    font-size: 1.1em;
-  }
 }
 </style>
