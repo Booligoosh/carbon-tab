@@ -22,7 +22,10 @@ const increaseDecimalPlaces = 2
 
 export default {
   data() {
-    return {}
+    return {
+      innerWidth: 0,
+      innerHeight: 0
+    }
   },
   store,
   components: {
@@ -33,6 +36,10 @@ export default {
     if (Date.now() - this.$store.getters.lastUpdateEpoch > 3600000) { // 1000*60*60 aka 1 hour
       this.updateCO2()
     }
+    // Set initial size
+    this.updateSize()
+    // Update size everytime the window is resized
+    window.addEventListener('resize', this.updateSize)
   },
   methods: {
     updateCO2() {
@@ -49,6 +56,10 @@ export default {
         number = `0` + number
       }
       return number
+    },
+    updateSize() {
+      this.innerWidth = window.innerWidth
+      this.innerHeight = window.innerHeight
     }
   },
   computed: {
@@ -111,12 +122,6 @@ export default {
         }
       }
       return max
-    },
-    innerWidth() {
-      return window.innerWidth
-    },
-    innerHeight() {
-      return window.innerHeight
     },
     apexChartOptions() {
       return {
