@@ -34,6 +34,7 @@ export default class Graph {
 
 		this.legend = this.overlay_g.append('g')
 			.attr('class', 'legend')
+			.attr('visibility', 'hidden')
 
 		this.legend.append('rect').attr('class', 'legend__title')
 		this.legend.append('rect').attr('class', 'legend__body')
@@ -74,6 +75,9 @@ export default class Graph {
 				.attr('stroke', '#fff')
 				.attr('stroke-width', 2)
 				.attr('class', 'current')
+				// hide
+				.attr('cx', -50)
+				.attr('cy', -50)
 
 			this.legend.append('circle')
 				.attr('cy', 49 + i++ * 28)
@@ -159,7 +163,8 @@ export default class Graph {
 		var lx = (dx < window.innerWidth / 2) ? dx + 25 : dx - 208 - 25;
 		var ly = dy - 99 * dy / window.innerHeight;
 
-		this.legend.attr('transform', 'translate(' + lx + ',' + ly + ')');  
+		this.legend.attr('visibility', 'visible')
+			.attr('transform', 'translate(' + lx + ',' + ly + ')');  
 	}
 }
 

@@ -58,7 +58,6 @@ export default {
   methods: {
     updateCO2() {
       axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`).then(response => {
-        console.log(response.data);
         store.dispatch(`setCO2Levels`, response.data);
         store.dispatch(`setLastUpdateEpoch`, Date.now());
         graph.setData(reponse.data);
@@ -137,6 +136,7 @@ svg {
 .legend text {
   fill: #fff;
   font-family: sans-serif;
+  font-weight: bold;
   alignment-baseline: middle;
 }
 .legend__title {
