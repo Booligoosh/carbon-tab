@@ -74,7 +74,7 @@ export default class Graph {
       .append('line')
       .attr('stroke-width', 2)
       .attr('stroke-dasharray', '5, 5')
-      .attr('stroke', '#fff')
+      .attr('stroke', 'currentColor')
       .attr('x1', -2)
       .attr('x2', -2);
 

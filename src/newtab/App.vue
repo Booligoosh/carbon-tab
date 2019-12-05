@@ -120,10 +120,16 @@ export default {
 body {
   margin: 0;
   padding: 5em;
-  background: hsl(204, 6%, 16%);
-  color: white;
+  background: white;
+  color: hsl(204, 6%, 16%);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   min-height: 100vh;
+}
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background: hsl(204, 6%, 16%);
+    color: white;
+  }
 }
 svg {
   position: absolute;
