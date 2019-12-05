@@ -159,7 +159,7 @@ svg {
 }
 </style>
 
-<style lang="scss" scoped>
+<style scoped>
 .large-co2-label,
 .large-co2-value,
 .increases {
@@ -190,8 +190,6 @@ svg {
   opacity: 0.75;
 }
 .monthly-chart {
-  // margin-left: -24px;
-  // margin-top: 30px;
   position: fixed;
   top: 0;
   left: 0;
