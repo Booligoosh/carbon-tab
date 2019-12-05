@@ -120,10 +120,16 @@ export default {
 body {
   margin: 0;
   padding: 5em;
-  background: hsl(204, 6%, 16%);
-  color: white;
+  background: white;
+  color: hsl(204, 6%, 16%);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   min-height: 100vh;
+}
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background: hsl(204, 6%, 16%);
+    color: white;
+  }
 }
 svg {
   position: absolute;
@@ -159,7 +165,7 @@ svg {
 }
 </style>
 
-<style lang="scss" scoped>
+<style scoped>
 .large-co2-label,
 .large-co2-value,
 .increases {
@@ -190,8 +196,6 @@ svg {
   opacity: 0.75;
 }
 .monthly-chart {
-  // margin-left: -24px;
-  // margin-top: 30px;
   position: fixed;
   top: 0;
   left: 0;
