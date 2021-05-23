@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     updateCO2() {
-      axios.get(`https://carbon-tab-cloud-functions.netlify.com/.netlify/functions/getCO2`).then(response => {
+      axios.get(`https://functions.carbon-tab.ethan.link/.netlify/functions/getCO2`).then(response => {
         store.dispatch(`setCO2Levels`, response.data);
         store.dispatch(`setLastUpdateEpoch`, Date.now());
         graph.setData(reponse.data);
