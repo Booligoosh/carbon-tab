@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="large-co2-label z-index-1">Current atmospheric CO2 level</h1>
-    <h2 class="large-co2-value z-index-1" v-if="currentCO2 >= 0">{{ currentCO2 }}</h2>
+    <h2 class="large-co2-value z-index-1" v-if="currentCO2 >= 0">{{ currentCO2 }}<sup>*</sup></h2>
     <div class="increases z-index-1">
       <div class="increase">
         {{ increaseSinceLastYear > 0 ? 'Increased' : 'Decreased' }} by
@@ -27,6 +27,7 @@
     <!-- <img class="logo" src="/public/img/logo-web-safe.svg?emitFile=false"> -->
     <svg id="graph"></svg>
     <svg id="overlay"></svg>
+    <div class="remark"><sup>*</sup> PPM stands for parts per million. This means that at a CO2 level of 400 PPM, 0.04% of our atmosphere consists of carbon dioxide.</div>
   </div>
 </template>
 
@@ -220,5 +221,8 @@ svg {
 .z-index-1 {
   z-index: 1;
   position: relative;
+}
+.remark {
+  font-size: 0.2em;
 }
 </style>
